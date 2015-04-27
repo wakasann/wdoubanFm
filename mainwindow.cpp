@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "coverimage.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -7,13 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    currentPicture = new QPixmap;
-
-
-    ui->musicfengmian->setAutoFillBackground(true);
-    QPalette palette= ui->musicfengmian->palette();
-    palette.setBrush(QPalette::Window,QPixmap("/home/wakasann/图片/1_120407153647_2.jpg"));
-    ui->musicfengmian->setPalette(palette);
+    coverImage.getCoverImage(ui);
 }
 
 MainWindow::~MainWindow()
