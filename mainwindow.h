@@ -2,7 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "coverimage.h"
+
+class QLabel;
 
 namespace Ui {
 class MainWindow;
@@ -16,9 +17,14 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    //显示网络图片
+    void setNetworkPic(const QString &picUrl);
+
 private:
     Ui::MainWindow *ui;
-    CoverImage *coverImage;
+
+   // QLabel  *musiccover; //music cover
+
 };
 
 #endif // MAINWINDOW_H
