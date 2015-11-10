@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
     MainWindow w;
 
     w.show();
-    //window
+    //window center
      w.move ((QApplication::desktop()->width() - w.width())/2,(QApplication::desktop()->height() - w.height())/2);
 
     return a.exec();
