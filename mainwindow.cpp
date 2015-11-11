@@ -35,14 +35,20 @@ MainWindow::MainWindow(QWidget *parent) :
    ui->songer->setFont(songerFont);
 
    //设置封面
-    MainWindow::setNetworkPic("http://img3.douban.com/img/fmadmin/chlBanner/27134.jpg");
-
+  //  MainWindow::setNetworkPic("http://img3.douban.com/img/fmadmin/chlBanner/27134.jpg");
+     MainWindow::setNetworkPic("http://img3.douban.com/lpic/s4186870.jpg");
     //play music
     player = new QMediaPlayer();
     //player->setMedia(QUrl("http://mr7.doubanio.com/8d460c03741b3334ac2d622ee4855c95/1/fm/song/p1816175_128k.mp4"));
     //player->setMedia(QUrl("http://mr7.doubanio.com/dd8b346fe9e5970fc46c21c078548bcc/1/fm/song/p622083_128k.mp4"));
-    player->setMedia(QUrl("http://mr7.doubanio.com/0a382bb7423140c933a59a6432fed584/0/fm/song/p334791_128k.mp4"));
+    //player->setMedia(QUrl("http://mr7.doubanio.com/0a382bb7423140c933a59a6432fed584/0/fm/song/p334791_128k.mp4"));
+    player->setMedia(QUrl("http://mr7.doubanio.com/f762e0226c09130bdeca43c837265259/0/fm/song/p1829868_128k.mp4"));
+    player->setVolume(100);
     player->play();
+    //total time
+    connect(player,SIGNAL(durationChanged(qint64)),this,SLOT(player_duration_changed(qint64)));
+    //current time
+    connect(player,SIGNAL(positionChanged(qint64)),this,SLOT(player_positionChanged(qint64)));
 
 //    QAxObject *speech= new QAxObject();
 //    speech->setControl("SAPI.SpVoice");
@@ -57,6 +63,7 @@ MainWindow::MainWindow(QWidget *parent) :
      //volume  progress bar
      ui->volumeSlider->setMinimum(0);
      ui->volumeSlider->setMaximum(100);
+     ui->volumeSlider->setValue(100);
 
 //   qint64 duration =  player->duration();
 //   ui->progressbar->setMaximum(duration);
@@ -92,10 +99,43 @@ void MainWindow::setNetworkPic(const QString &picUrl)
       //setPixmap(pixmap); // 你在QLabel显示图片
 }
 
-void MainWindow::on_progressbar_valueChanged(int value)
-{
-    QString str = QString("%1").arg(value);
-    ui->remainingtime->setText(str);
+void MainWindow::player_duration_changed(qint64 duration){
+    ui->progressbar->setMaximum(duration);
+   QString totalTime = this->timeFormat(duration);
+    ui->totaltime->setText(totalTime);
+}
+
+void MainWindow::player_positionChanged(qint64 position){
+    QString currentTime = this->timeFormat(position);
+    ui->remainingtime->setText(currentTime);
+    ui->progressbar->setValue(position);
+   // qDebug("Song Position: %d", position);
+}
+
+QString MainWindow::timeFormat(qint64 param_second){
+
+    qint64 hour = param_second/(60*60*1000);
+    qint64 minutes = (param_second - hour*60*60*1000)/(60*1000);
+    qint64 seconds = (param_second - hour*60*60*1000 - minutes*60*1000)/1000;
+
+//   qint64 minutes = (param_second % (1000 * 60 * 60)) / (1000 * 60);
+//   qint64 seconds = (param_second % (1000 * 60)) / 1000;
+   QString minuteStr = "";
+   QString secondStr = "";
+   if(minutes < 10){
+       minuteStr = QString("0%1").arg(minutes);
+   }else{
+       minuteStr = QString("%1").arg(minutes);
+   }
+
+   if(seconds < 10){
+       secondStr = QString("0%1").arg(seconds);
+   }else{
+       secondStr = QString("%1").arg(seconds);
+   }
+
+   QString str = QString("%1:%2").arg(minuteStr).arg(secondStr);
+  return str;
 }
 
 /**
@@ -106,4 +146,9 @@ void MainWindow::on_progressbar_valueChanged(int value)
 void MainWindow::on_volumeSlider_valueChanged(int value)
 {
     player->setVolume(value);
+}
+
+void MainWindow::on_progressbar_valueChanged(int value)
+{
+
 }

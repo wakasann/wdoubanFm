@@ -31,6 +31,8 @@ public:
     QSlider *progressbar;
     QLabel *remainingtime;
     QSlider *volumeSlider;
+    QLabel *timeSplit;
+    QLabel *totaltime;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -45,6 +47,9 @@ public:
         MainWindow->setSizePolicy(sizePolicy);
         MainWindow->setMinimumSize(QSize(520, 245));
         MainWindow->setMaximumSize(QSize(520, 245));
+        QFont font;
+        font.setPointSize(10);
+        MainWindow->setFont(font);
         MainWindow->setWindowOpacity(0.9);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
@@ -54,8 +59,6 @@ public:
         album = new QLabel(centralWidget);
         album->setObjectName(QStringLiteral("album"));
         album->setGeometry(QRect(270, 40, 251, 21));
-        QFont font;
-        font.setPointSize(10);
         album->setFont(font);
         musiccover = new QLabel(centralWidget);
         musiccover->setObjectName(QStringLiteral("musiccover"));
@@ -65,16 +68,29 @@ public:
         progressbar->setObjectName(QStringLiteral("progressbar"));
         progressbar->setEnabled(true);
         progressbar->setGeometry(QRect(270, 90, 241, 29));
-        progressbar->setCursor(QCursor(Qt::PointingHandCursor));
+        progressbar->setCursor(QCursor(Qt::BlankCursor));
         progressbar->setPageStep(10);
         progressbar->setOrientation(Qt::Horizontal);
         remainingtime = new QLabel(centralWidget);
         remainingtime->setObjectName(QStringLiteral("remainingtime"));
-        remainingtime->setGeometry(QRect(460, 70, 41, 17));
+        remainingtime->setGeometry(QRect(420, 70, 41, 17));
+        QFont font1;
+        font1.setPointSize(11);
+        remainingtime->setFont(font1);
         volumeSlider = new QSlider(centralWidget);
         volumeSlider->setObjectName(QStringLiteral("volumeSlider"));
         volumeSlider->setGeometry(QRect(450, 120, 51, 21));
         volumeSlider->setOrientation(Qt::Horizontal);
+        timeSplit = new QLabel(centralWidget);
+        timeSplit->setObjectName(QStringLiteral("timeSplit"));
+        timeSplit->setGeometry(QRect(460, 70, 16, 17));
+        timeSplit->setFont(font1);
+        totaltime = new QLabel(centralWidget);
+        totaltime->setObjectName(QStringLiteral("totaltime"));
+        totaltime->setGeometry(QRect(470, 70, 41, 17));
+        totaltime->setFont(font1);
+        totaltime->setAutoFillBackground(false);
+        totaltime->setTextFormat(Qt::PlainText);
         MainWindow->setCentralWidget(centralWidget);
 
         retranslateUi(MainWindow);
@@ -89,6 +105,8 @@ public:
         album->setText(QApplication::translate("MainWindow", "<\343\202\261\343\203\204\343\203\216\343\203\235\343\203\252\343\202\2717> 2011", 0));
         musiccover->setText(QString());
         remainingtime->setText(QApplication::translate("MainWindow", "00:00", 0));
+        timeSplit->setText(QApplication::translate("MainWindow", "/", 0));
+        totaltime->setText(QApplication::translate("MainWindow", "05:10", 0));
     } // retranslateUi
 
 };
